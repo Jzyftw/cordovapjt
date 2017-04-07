@@ -63,8 +63,11 @@ controller.addNote = {
     model.NoteDAO.insert(newNote, // puis on essaye de la sauver en BD
       function () { // successCB
         plugins.toast.showShortCenter('Note ' + newNote.id + ' Enregistrée');
+        //réinitialisation des champs
         $("#addNoteTitre").val("");
         $("#addNoteTexte").val("");
+        $("#locationLatitude").val("");
+        $("#locationLongitude").val("");
         $("#cameraImage").attr("src","");
         $.mobile.changePage("#listNote");
       },
@@ -153,6 +156,10 @@ controller.detailNote = {
         $("#oneNoteId").html(uneNote.id);         // et si succès, on met à jour la page
         $("#oneNoteTitre").html(uneNote.titre);
         $("#oneNoteTexte").html(uneNote.texte);
+        $("#oneNoteLat").html(uneNote.latitude);
+        $("#oneNoteLong").html(uneNote.longitude);
+        $("#oneNotePhoto").attr("src", uneNote.photo);
+
       },
       function () { // errorCB
         plugins.toast.showShortCenter("Note non disponible");
