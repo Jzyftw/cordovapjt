@@ -151,9 +151,13 @@
                         </div>
                         <div class="ui-body ui-body-a">
                             <p><span id="oneNoteTexte"></span></p>
+                            <h2>Emplacement</h2>
                             <p><span id="oneNoteLat"></span></p>
                             <p><span id="oneNoteLong"></span></p>
-                            <p><img id="oneNotePhoto" src="" alt=""></p>
+                            <a href="javascript:window.controller.locationController.gotolocation()" style="text-decoration: none"><button>Visualiser la position</button></a>
+
+                            <h2>Photo associée</h2>
+                            <p><img id="oneNotePhoto" src="" alt="" width="20%"></p>
                         </div>
                     </div>
                     <a href="#popupRemoveNote" data-rel="popup" data-position-to="window" data-transition="pop" 

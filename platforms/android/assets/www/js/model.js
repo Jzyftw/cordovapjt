@@ -77,7 +77,7 @@ model.NoteDAO = {
     findById: function (id, successCtrlCB, errorCtrlCB) {
         model.db.executeSql("SELECT * FROM note WHERE id = ?", [id],
                 function (res) { // success
-                    var uneNote = new model.Note(res.rows.item(0).id, res.rows.item(0).titre, res.rows.item(0).texte);
+                    var uneNote = new model.Note(res.rows.item(0).id, res.rows.item(0).titre, res.rows.item(0).texte, res.rows.item(0).photo, res.rows.item(0).latitude, res.rows.item(0).longitude);
                     successCtrlCB.call(this, uneNote);
                 },
                 function (err) { // erreur

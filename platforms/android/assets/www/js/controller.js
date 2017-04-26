@@ -151,14 +151,15 @@ $(document).on("swiperight", "#listNote", function () {
 controller.detailNote = {
   updateView: function () {
     var noteId = $("#detailNote").data("noteId"); // on récupère l'id de la note sur la page
-    model.NoteDAO.findById(noteId, // on instancie l'entité Note correspondant
+    model.NoteDAO.findById(noteId, // on instancie l'entité Note correspondante
       function (uneNote) { // successCB
         $("#oneNoteId").html(uneNote.id);         // et si succès, on met à jour la page
         $("#oneNoteTitre").html(uneNote.titre);
         $("#oneNoteTexte").html(uneNote.texte);
+        $("#oneNotePhoto").attr("src", uneNote.photo);
         $("#oneNoteLat").html(uneNote.latitude);
         $("#oneNoteLong").html(uneNote.longitude);
-        $("#oneNotePhoto").attr("src", uneNote.photo);
+
 
       },
       function () { // errorCB
