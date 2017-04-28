@@ -28,7 +28,7 @@ model.init = function (successCtrlCB, errorCtrlCB) {
                     });
 
                 //Création de la table de jointure
-                model.db.executeSql("CREATE TABLE IF NOT EXISTS NoteContacts (NoteId integer primary key, ContactId)", [],
+                model.db.executeSql("CREATE TABLE IF NOT EXISTS NoteContacts (NoteId integer, ContactId integer)", [],
                     function () {
                         succCB.call(this);
                     },
