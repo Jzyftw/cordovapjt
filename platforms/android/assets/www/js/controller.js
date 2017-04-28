@@ -155,6 +155,7 @@ controller.detailNote = {
       function (uneNote) { // successCB
         $("#oneNoteId").html(uneNote.id);         // et si succès, on met à jour la page
         $("#oneNoteTitre").html(uneNote.titre);
+        $("#oneNoteMoment").html(uneNote.moment);
         $("#oneNoteTexte").html(uneNote.texte);
         $("#oneNotePhoto").attr("src", uneNote.photo);
         $("#oneNoteLat").html(uneNote.latitude);

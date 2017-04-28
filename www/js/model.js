@@ -10,13 +10,31 @@ model.init = function (successCtrlCB, errorCtrlCB) {
             function () {
                 var succCB = successCtrlCB; // pbm de visibilité
                 var errCB = errorCtrlCB;    // pbm de visibilité
-                model.db.executeSql("CREATE TABLE IF NOT EXISTS note (id integer primary key, titre text, texte text, photo text, latitude float, longitude float)", [],
+                model.db.executeSql("CREATE TABLE IF NOT EXISTS note (id integer primary key, titre text, texte text, photo text, latitude float, longitude float, moment datetime)", [],
                         function () {
                             succCB.call(this);
                         },
                         function () {
                             errCB.call(this);
                         });
+
+                //Création de la table contacts
+                model.db.executeSql("CREATE TABLE IF NOT EXISTS contacts (id integer primary key, prenom text, nom text, numero integer)", [],
+                    function () {
+                        succCB.call(this);
+                    },
+                    function () {
+                        errCB.call(this);
+                    });
+
+                //Création de la table de jointure
+                model.db.executeSql("CREATE TABLE IF NOT EXISTS NoteContacts (NoteId integer primary key, ContactId)", [],
+                    function () {
+                        succCB.call(this);
+                    },
+                    function () {
+                        errCB.call(this);
+                    });
             },
             function () {
                 errorCtrlCB.call(this);
@@ -29,13 +47,15 @@ model.exit = function () {
 };
 
 // Définition de l'Entité Note
-model.Note = function (id, titre, texte, photo, latitude, longitude) {
+model.Note = function (id, titre, texte, photo, latitude, longitude, moment) {
     this.id = id;
     this.titre = titre;
     this.texte = texte;
     this.photo = photo;
     this.latitude = latitude;
     this.longitude = longitude;
+    this.moment = moment;
+
 };
 
 model.NoteDAO = {
@@ -45,7 +65,7 @@ model.NoteDAO = {
     insert: function (uneNote, successCtrlCB, errorCtrlCB) {
         var laNote = uneNote;
         model.db.executeSql(
-                "INSERT INTO note (titre, texte, photo, latitude, longitude) VALUES (?,?,?,?,?)", [uneNote.titre, uneNote.texte ,uneNote.photo, uneNote.latitude, uneNote.longitude],
+                "INSERT INTO note (titre, texte, photo, latitude, longitude, moment) VALUES (?,?,?,?,?, date('now'))", [uneNote.titre, uneNote.texte ,uneNote.photo, uneNote.latitude, uneNote.longitude],
                 function (res) { // succes
                     laNote.id = res.insertId; // on met à jour l'id de la note après insertion en BD
                     successCtrlCB.call(this);     // et on appelle la successCtrlCB en provenance du contrôleur
@@ -77,7 +97,7 @@ model.NoteDAO = {
     findById: function (id, successCtrlCB, errorCtrlCB) {
         model.db.executeSql("SELECT * FROM note WHERE id = ?", [id],
                 function (res) { // success
-                    var uneNote = new model.Note(res.rows.item(0).id, res.rows.item(0).titre, res.rows.item(0).texte, res.rows.item(0).photo, res.rows.item(0).latitude, res.rows.item(0).longitude);
+                    var uneNote = new model.Note(res.rows.item(0).id, res.rows.item(0).titre, res.rows.item(0).texte, res.rows.item(0).photo, res.rows.item(0).latitude, res.rows.item(0).longitude, res.rows.item(0).moment);
                     successCtrlCB.call(this, uneNote);
                 },
                 function (err) { // erreur
